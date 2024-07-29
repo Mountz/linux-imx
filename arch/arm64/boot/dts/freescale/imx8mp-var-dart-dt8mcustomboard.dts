@@ -90,12 +90,15 @@
 	};
 
 	panel {
-		compatible = "sgd,gktw70sdae4se", "panel-lvds";
+		// compatible = "sgd,gktw70sdae4se", "panel-lvds";
+		compatible = "dataimage,lcx0700130ggc01\0panel-lvds";
 		backlight = <&backlight>;
 		width-mm = <153>;
 		height-mm = <87>;
-		label = "gktw70sdae4se";
-		data-mapping = "jeida-24";
+		label = "lcx0700130ggc01";
+		data-mapping = "vesa-24";
+		// label = "gktw70sdae4se";
+		// data-mapping = "jeida-24";
 		status = "okay";
 
 		panel-timing {
@@ -253,34 +256,34 @@
 		};
 	};
 
-	/* DS1337 RTC module */
-	rtc@68 {
-		compatible = "dallas,ds1337";
-		reg = <0x68>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_rtc>;
-		interrupt-parent = <&gpio1>;
-		interrupts = <15 IRQ_TYPE_EDGE_FALLING>;
-		wakeup-source;
-		status = "okay";
-	};
+	// /* DS1337 RTC module */
+	// rtc@68 {
+	// 	compatible = "dallas,ds1337";
+	// 	reg = <0x68>;
+	// 	pinctrl-names = "default";
+	// 	pinctrl-0 = <&pinctrl_rtc>;
+	// 	interrupt-parent = <&gpio1>;
+	// 	interrupts = <15 IRQ_TYPE_EDGE_FALLING>;
+	// 	wakeup-source;
+	// 	status = "okay";
+	// };
 
 	/* Capacitive touch controller */
-	ft5x06_ts: ft5x06_ts@38 {
-		compatible = "edt,edt-ft5206";
-		reg = <0x38>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_captouch>;
-		reset-gpios = <&pca6408_2 4 GPIO_ACTIVE_LOW>;
-		interrupt-parent = <&gpio1>;
-		interrupts = <14 IRQ_TYPE_EDGE_FALLING>;
-		touchscreen-size-x = <800>;
-		touchscreen-size-y = <480>;
-		touchscreen-inverted-x;
-		touchscreen-inverted-y;
-		wakeup-source;
-		status = "okay";
-	};
+	// ft5x06_ts: ft5x06_ts@38 {
+	// 	compatible = "edt,edt-ft5206";
+	// 	reg = <0x38>;
+	// 	pinctrl-names = "default";
+	// 	pinctrl-0 = <&pinctrl_captouch>;
+	// 	reset-gpios = <&pca6408_2 4 GPIO_ACTIVE_LOW>;
+	// 	interrupt-parent = <&gpio1>;
+	// 	interrupts = <14 IRQ_TYPE_EDGE_FALLING>;
+	// 	touchscreen-size-x = <800>;
+	// 	touchscreen-size-y = <480>;
+	// 	touchscreen-inverted-x;
+	// 	touchscreen-inverted-y;
+	// 	wakeup-source;
+	// 	status = "okay";
+	// };
 };
 
 &i2c3 {
@@ -360,13 +363,13 @@
 &flexcan1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_flexcan1>;
-	status = "okay";
+	status = "disabled";
 };
 
 &flexcan2 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_flexcan2>;
-	status = "okay";
+	status = "disabled";
 };
 
 &irqsteer_hdmi {
@@ -410,7 +413,8 @@
 	status = "okay";
 
 	lvds-channel@0 {
-		fsl,data-mapping = "jeida";
+		// fsl,data-mapping = "jeida";
+		fsl,data-mapping = "spwg";
 		fsl,data-width = <24>;
 		status = "okay";
 
@@ -615,29 +619,29 @@
 	status = "okay";
 
 	/* Resistive touch controller */
-	ads7846@0 {
-		compatible = "ti,ads7846";
-		reg = <0>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_restouch>;
-		interrupt-parent = <&gpio1>;
-		interrupts = <7 IRQ_TYPE_EDGE_FALLING>;
-		spi-max-frequency = <1500000>;
-		pendown-gpio = <&gpio1 7 GPIO_ACTIVE_LOW>;
-		ti,x-min = /bits/ 16 <125>;
-		ti,x-max = /bits/ 16 <4008>;
-		ti,y-min = /bits/ 16 <282>;
-		ti,y-max = /bits/ 16 <3864>;
-		ti,x-plate-ohms = /bits/ 16 <180>;
-		ti,pressure-max = /bits/ 16 <255>;
-		ti,debounce-max = /bits/ 16 <10>;
-		ti,debounce-tol = /bits/ 16 <3>;
-		ti,debounce-rep = /bits/ 16 <1>;
-		ti,settle-delay-usec = /bits/ 16 <150>;
-		ti,keep-vref-on;
-		wakeup-source;
-		status = "okay";
-	};
+	// ads7846@0 {
+	// 	compatible = "ti,ads7846";
+	// 	reg = <0>;
+	// 	pinctrl-names = "default";
+	// 	pinctrl-0 = <&pinctrl_restouch>;
+	// 	interrupt-parent = <&gpio1>;
+	// 	interrupts = <7 IRQ_TYPE_EDGE_FALLING>;
+	// 	spi-max-frequency = <1500000>;
+	// 	pendown-gpio = <&gpio1 7 GPIO_ACTIVE_LOW>;
+	// 	ti,x-min = /bits/ 16 <125>;
+	// 	ti,x-max = /bits/ 16 <4008>;
+	// 	ti,y-min = /bits/ 16 <282>;
+	// 	ti,y-max = /bits/ 16 <3864>;
+	// 	ti,x-plate-ohms = /bits/ 16 <180>;
+	// 	ti,pressure-max = /bits/ 16 <255>;
+	// 	ti,debounce-max = /bits/ 16 <10>;
+	// 	ti,debounce-tol = /bits/ 16 <3>;
+	// 	ti,debounce-rep = /bits/ 16 <1>;
+	// 	ti,settle-delay-usec = /bits/ 16 <150>;
+	// 	ti,keep-vref-on;
+	// 	wakeup-source;
+	// 	status = "okay";
+	// };
 
 	can0: can@1 {
 		compatible = "microchip,mcp251xfd";
@@ -660,10 +664,10 @@
 	};
 };
 
-&ldo4 {
-	regulator-min-microvolt = <1800000>;
-	regulator-max-microvolt = <1800000>;
-};
+// &ldo4 {
+// 	regulator-min-microvolt = <1800000>;
+// 	regulator-max-microvolt = <1800000>;
+// };
 
 &xcvr {
 	#sound-dai-cells = <0>;
@@ -886,9 +890,9 @@
 		>;
 	};
 
-	pinctrl_rtc: rtcgrp {
-		fsl,pins = <
-			MX8MP_IOMUXC_GPIO1_IO15__GPIO1_IO15 				0x1c0
-		>;
-	};
+	// pinctrl_rtc: rtcgrp {
+	// 	fsl,pins = <
+	// 		MX8MP_IOMUXC_GPIO1_IO15__GPIO1_IO15 				0x1c0
+	// 	>;
+	// };
 };

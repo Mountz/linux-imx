@@ -9,26 +9,26 @@
 / {
 	model = "Variscite DART-MX8M-PLUS on DT8MCustomBoard 1.x";
 
-	gpio-keys {
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_gpio_keys>;
+	// gpio-keys {
+	// 	pinctrl-names = "default";
+	// 	pinctrl-0 = <&pinctrl_gpio_keys>;
 
-		up {
-			gpios = <&gpio4 18 GPIO_ACTIVE_LOW>;
-		};
+	// 	up {
+	// 		gpios = <&gpio4 18 GPIO_ACTIVE_LOW>;
+	// 	};
 
-		down {
-			gpios = <&gpio4 15 GPIO_ACTIVE_LOW>;
-		};
+	// 	down {
+	// 		gpios = <&gpio4 15 GPIO_ACTIVE_LOW>;
+	// 	};
 
-		home {
-			gpios = <&gpio4 13 GPIO_ACTIVE_LOW>;
-		};
+	// 	home {
+	// 		gpios = <&gpio4 13 GPIO_ACTIVE_LOW>;
+	// 	};
 
-		back {
-			gpios = <&gpio4 6 GPIO_ACTIVE_LOW>;
-		};
-	};
+	// 	back {
+	// 		gpios = <&gpio4 6 GPIO_ACTIVE_LOW>;
+	// 	};
+	// };
 
 	gpio-leds {
 		emmc {
@@ -50,8 +50,23 @@
 		reset-gpios = <&gpio5 28 GPIO_ACTIVE_LOW>;
 	};
 
-	ft5x06_ts: ft5x06_ts@38 {
-		reset-gpios = <&gpio4 5 GPIO_ACTIVE_LOW>;
+	// ft5x06_ts: ft5x06_ts@38 {
+	// 	reset-gpios = <&gpio4 5 GPIO_ACTIVE_LOW>;
+	// };
+
+	ilitek_ts: ilitek_ts@41 {
+		compatible = "ilitek,ili2130";
+		reg = <0x41>;
+
+		reset-gpios = <&gpio3 19 GPIO_ACTIVE_LOW>;
+		interrupt-parent = <&gpio4>;
+		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
+
+		//touchscreen-inverted-y;
+		//touchscreen-inverted-x;
+		wakeup-source;
+
+		status = "okay";
 	};
 };
 
@@ -61,6 +76,18 @@
 		pinctrl-0 = <&pinctrl_csi1>;
 		powerdown-gpios = <&gpio4 9 GPIO_ACTIVE_HIGH>;
 		reset-gpios = <&gpio4 12 GPIO_ACTIVE_LOW>;
+	};
+
+		/* DS1337 RTC module */
+	rtc@68 {
+		compatible = "dallas,ds1337";
+		reg = <0x68>;
+		// pinctrl-names = "default";
+		// pinctrl-0 = <&pinctrl_rtc>;
+		// interrupt-parent = <&gpio1>;
+		// interrupts = <15 IRQ_TYPE_EDGE_FALLING>;
+		// wakeup-source;
+		status = "okay";
 	};
 };
 
