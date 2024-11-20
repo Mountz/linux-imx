@@ -58,6 +58,9 @@
 		compatible = "ilitek,ili2130";
 		reg = <0x41>;
 
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_captouch>;
+
 		reset-gpios = <&gpio3 19 GPIO_ACTIVE_LOW>;
 		interrupt-parent = <&gpio4>;
 		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
