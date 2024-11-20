@@ -838,12 +838,17 @@
 		>;
 	};
 
+	// pinctrl_captouch: captouchgrp {
+	// 	fsl,pins = <
+	// 		MX8MP_IOMUXC_GPIO1_IO14__GPIO1_IO14				0x16
+	// 	>;
+	// };
+
 	pinctrl_captouch: captouchgrp {
 		fsl,pins = <
-			MX8MP_IOMUXC_GPIO1_IO14__GPIO1_IO14				0x16
+			MX8MP_IOMUXC_SAI1_RXFS__GPIO4_IO00				0x16
 		>;
 	};
-
 
 	pinctrl_restouch: restouchgrp {
 		fsl,pins = <
