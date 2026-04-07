@@ -9,6 +9,31 @@
 / {
 	model = "Variscite DART-MX8M-PLUS on DT8MCustomBoard 1.x";
 
+	usb1_conn: connector {
+		compatible = "gpio-usb-b-connector", "usb-b-connector";
+		label = "usb1-otg";
+		type = "micro";
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_usb1_conn>;
+
+		/*
+		 * Current expected polarity:
+		 *   LOW  = Host / DFP
+		 *   HIGH = Peripheral / UFP
+		 *
+		 * If Alan later inverts TPS output logic, change only this
+		 * GPIO_ACTIVE_HIGH to GPIO_ACTIVE_LOW.
+		 */
+		id-gpios = <&gpio1 10 GPIO_ACTIVE_HIGH>;
+
+		port {
+			usb1_conn_sw: endpoint {
+				remote-endpoint = <&usb1_drd_sw>;
+			};
+		};
+	};
+
 	// gpio-keys {
 	// 	pinctrl-names = "default";
 	// 	pinctrl-0 = <&pinctrl_gpio_keys>;
@@ -38,7 +63,6 @@
 
 	can0_osc: can0_osc {
 		clock-frequency = <20000000>;
-		/delete-property/ microchip,rx-int-gpios;
 	};
 };
 
@@ -49,12 +73,14 @@
 	};
 
 	ov5640_mipi0: ov5640_mipi@3c {
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_csi0>;
-		powerdown-gpios = <&gpio4 8 GPIO_ACTIVE_HIGH>;
-		reset-gpios = <&gpio5 28 GPIO_ACTIVE_LOW>;
+		status = "disabled";
+		/delete-property/ pinctrl-names;
+		/delete-property/ pinctrl-0;
+		/delete-property/ powerdown-gpios;
+		/delete-property/ reset-gpios;
 	};
 
+	/* Touchscreen driver */
 	ilitek_ts: ilitek_ts@41 {
 		compatible = "ilitek,ili2130";
 		reg = <0x41>;
@@ -66,7 +92,10 @@
 		interrupt-parent = <&gpio4>;
 		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
 
+		//touchscreen-inverted-y;
+		//touchscreen-inverted-x;
 		wakeup-source;
+
 		status = "okay";
 	};
 };
@@ -75,24 +104,19 @@
 	clock-frequency = <100000>;
 
 	ov5640_mipi1: ov5640_mipi@3c {
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_csi1>;
-		powerdown-gpios = <&gpio4 9 GPIO_ACTIVE_HIGH>;
-		reset-gpios = <&gpio4 12 GPIO_ACTIVE_LOW>;
+		status = "disabled";
+		/delete-property/ pinctrl-names;
+		/delete-property/ pinctrl-0;
+		/delete-property/ powerdown-gpios;
+		/delete-property/ reset-gpios;
 	};
 
+	/* DS1337 RTC module */
 	rtc@68 {
 		compatible = "dallas,ds1337";
 		reg = <0x68>;
 		status = "okay";
 	};
-};
-
-&ldo4 {
-	regulator-min-microvolt = <3300000>;
-	regulator-max-microvolt = <3300000>;
-	regulator-boot-on;
-	regulator-always-on;
 };
 
 &pca6408_1 {
@@ -104,13 +128,15 @@
 };
 
 &pcie {
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_pcie>;
-	reset-gpio = <&gpio4 7 GPIO_ACTIVE_LOW>;
+	status = "disabled";
+	/delete-property/ reset-gpio;
+	/delete-property/ pinctrl-names;
+	/delete-property/ pinctrl-0;
 };
 
 &can0 {
 	spi-max-frequency = <10000000>;
+	/delete-property/ microchip,rx-int-gpios;
 };
 
 &gpio1 {
@@ -136,27 +162,18 @@
 	status = "disabled";
 };
 
-/*
- * Force USB1 into host mode for debug.
- * This keeps the current app-friendly DTS and only changes USB1 behavior.
- */
-&{/soc@0/usb@32f10100} {
+&usb_dwc3_0 {
+	dr_mode = "otg";
+	role-switch-default-mode = "host";
 	status = "okay";
-	dr_mode = "host";
-};
 
-&{/soc@0/usb@32f10100/usb@38100000} {
-	status = "okay";
-	dr_mode = "host";
-
-	hnp-disable;
-	srp-disable;
-	adp-disable;
-
-	/delete-property/ extcon;
-	/delete-property/ usb-role-switch;
-	/delete-property/ role-switch-default-mode;
 	/delete-node/ port;
+
+	port {
+		usb1_drd_sw: endpoint {
+			remote-endpoint = <&usb1_conn_sw>;
+		};
+	};
 };
 
 &iomuxc {
@@ -216,4 +233,29 @@
 			MX8MP_IOMUXC_SAI1_TXD5__GPIO4_IO17				0xc6
 		>;
 	};
+
+	pinctrl_usb1_conn: usb1conngrp {
+		fsl,pins = <
+			MX8MP_IOMUXC_GPIO1_IO10__GPIO1_IO10				0x1c6
+		>;
+	};
+};
+&mipi_csi_0 {
+	status = "disabled";
+};
+
+&mipi_csi_1 {
+	status = "disabled";
+};
+
+&cameradev {
+	status = "disabled";
+};
+
+&isi_0 {
+	status = "disabled";
+};
+
+&isi_1 {
+	status = "disabled";
 };
