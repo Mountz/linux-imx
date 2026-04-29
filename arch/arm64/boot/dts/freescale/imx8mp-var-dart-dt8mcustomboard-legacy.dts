@@ -239,6 +239,25 @@
 			MX8MP_IOMUXC_GPIO1_IO10__GPIO1_IO10				0x1c6
 		>;
 	};
+
+	pinctrl_hpc: hpcgrp {
+		fsl,pins = <
+			/* J17 / HPC1 */
+			MX8MP_IOMUXC_UART4_RXD__GPIO5_IO28          0x1c6
+			MX8MP_IOMUXC_SPDIF_RX__GPIO5_IO04           0x1c6
+			MX8MP_IOMUXC_SPDIF_EXT_CLK__GPIO5_IO05      0x1c6
+
+			/* J18 / HPC2 */
+			MX8MP_IOMUXC_SAI1_TXD6__GPIO4_IO18          0x1c6
+			MX8MP_IOMUXC_SAI1_TXD7__GPIO4_IO19          0x1c6
+			MX8MP_IOMUXC_SAI1_MCLK__GPIO4_IO20          0x1c6
+
+			/* J19 / HPC3 */
+			MX8MP_IOMUXC_SAI1_RXD2__GPIO4_IO04          0x1c6
+			MX8MP_IOMUXC_SAI1_TXFS__GPIO4_IO10          0x1c6
+			MX8MP_IOMUXC_SAI1_RXD4__GPIO4_IO06          0x1c6
+		>;
+	};
 };
 &mipi_csi_0 {
 	status = "disabled";
