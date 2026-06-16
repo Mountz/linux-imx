@@ -34,28 +34,10 @@
 		};
 	};
 
-	// gpio-keys {
-	// 	pinctrl-names = "default";
-	// 	pinctrl-0 = <&pinctrl_gpio_keys>;
-	//
-	// 	up {
-	// 		gpios = <&gpio4 18 GPIO_ACTIVE_LOW>;
-	// 	};
-	//
-	// 	down {
-	// 		gpios = <&gpio4 15 GPIO_ACTIVE_LOW>;
-	// 	};
-	//
-	// 	home {
-	// 		gpios = <&gpio4 13 GPIO_ACTIVE_LOW>;
-	// 	};
-	//
-	// 	back {
-	// 		gpios = <&gpio4 6 GPIO_ACTIVE_LOW>;
-	// 	};
-	// };
-
 	gpio-leds {
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpio_leds>;
+
 		emmc {
 			gpios = <&gpio4 17 GPIO_ACTIVE_HIGH>;
 		};
@@ -176,6 +158,11 @@
 	};
 };
 
+&usb_dwc3_1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_hpc_ports>;
+};
+
 &iomuxc {
 	pinctrl_captouch: captouchgrp {
 		fsl,pins = <
@@ -229,7 +216,6 @@
 		fsl,pins = <
 			MX8MP_IOMUXC_SAI1_RXD1__GPIO4_IO03				0xc6
 			MX8MP_IOMUXC_SAI1_TXD2__GPIO4_IO14				0xc6
-			MX8MP_IOMUXC_SAI1_RXD2__GPIO4_IO04				0xc6
 			MX8MP_IOMUXC_SAI1_TXD5__GPIO4_IO17				0xc6
 		>;
 	};
@@ -240,25 +226,26 @@
 		>;
 	};
 
-	pinctrl_hpc: hpcgrp {
+	pinctrl_hpc_ports: hpcportsgrp {
 		fsl,pins = <
 			/* J17 / HPC1 */
-			MX8MP_IOMUXC_UART4_RXD__GPIO5_IO28          0x1c6
-			MX8MP_IOMUXC_SPDIF_RX__GPIO5_IO04           0x1c6
-			MX8MP_IOMUXC_SPDIF_EXT_CLK__GPIO5_IO05      0x1c6
+			MX8MP_IOMUXC_UART4_RXD__GPIO5_IO28				0x1c6	/* /HPC1_CONN */
+			MX8MP_IOMUXC_SPDIF_RX__GPIO5_IO04				0x1c6	/* HPC1_EN */
+			MX8MP_IOMUXC_SPDIF_EXT_CLK__GPIO5_IO05			0x1c6	/* /HPC1_FAULT */
 
 			/* J18 / HPC2 */
-			MX8MP_IOMUXC_SAI1_TXD6__GPIO4_IO18          0x1c6
-			MX8MP_IOMUXC_SAI1_TXD7__GPIO4_IO19          0x1c6
-			MX8MP_IOMUXC_SAI1_MCLK__GPIO4_IO20          0x1c6
+			MX8MP_IOMUXC_SAI1_TXD7__GPIO4_IO19				0x1c6	/* /HPC2_CONN */
+			MX8MP_IOMUXC_SAI1_TXD6__GPIO4_IO18				0x1c6	/* HPC2_EN */
+			MX8MP_IOMUXC_SAI1_MCLK__GPIO4_IO20				0x1c6	/* /HPC2_FAULT */
 
 			/* J19 / HPC3 */
-			MX8MP_IOMUXC_SAI1_RXD2__GPIO4_IO04          0x1c6
-			MX8MP_IOMUXC_SAI1_TXFS__GPIO4_IO10          0x1c6
-			MX8MP_IOMUXC_SAI1_RXD4__GPIO4_IO06          0x1c6
+			MX8MP_IOMUXC_SAI1_RXD2__GPIO4_IO04				0x1c6	/* /HPC3_CONN */
+			MX8MP_IOMUXC_SAI1_TXFS__GPIO4_IO10				0x1c6	/* HPC3_EN */
+			MX8MP_IOMUXC_SAI1_RXD4__GPIO4_IO06				0x1c6	/* /HPC3_FAULT */
 		>;
 	};
 };
+
 &mipi_csi_0 {
 	status = "disabled";
 };
@@ -277,4 +264,11 @@
 
 &isi_1 {
 	status = "disabled";
+};
+
+&ldo4 {
+	regulator-min-microvolt = <3300000>;
+	regulator-max-microvolt = <3300000>;
+	regulator-boot-on;
+	regulator-always-on;
 };
